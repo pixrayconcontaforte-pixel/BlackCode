@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlackCode</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
+
+  <!-- Favicon para dispositivos Apple -->
+  <link rel="apple-touch-icon" sizes="180x180" href="images/favicon.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #000000;
+      color: #ffffff;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.95);
+      border-bottom: 2px solid #990000;
+    }
+
+    header img {
+      height: 60px;
+      cursor: pointer;
+    }
+
+   
+    /* Avaliações */
+    .avaliacoes {
+      padding: 40px 60px;
+    }
+
+    .avaliacoes h2 {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #ff1a1a;
+      text-shadow: 0px 0px 10px rgba(255, 0, 0, 0.7);
+    }
+
+    .comentario {
+      background: rgba(20, 20, 20, 0.95);
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      border: 1px solid #ff1a1a;
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+    }
+
+    .comentario img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid #ff1a1a;
+      object-fit: cover;
+    }
+
+    .comentario .texto {
+      flex: 1;
+    }
+
+    .comentario .texto h4 {
+      margin-bottom: 5px;
+      color: #ff1a1a;
+    }
+
+    .comentario .texto p {
+      color: #ffffff;
+      line-height: 1.4;
+    }
+
+    /* Rodapé */
+    footer {
+      background: rgba(0, 0, 0, 0.95);
+      padding: 20px 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 2px solid #990000;
+    }
+
+    footer img {
+      height: 40px;
+    }
+
+    .social {
+      display: flex;
+      gap: 15px;
+    }
+
+    .social a {
+      text-decoration: none;
+      color: #ff1a1a;
+      font-size: 22px;
+      transition: 0.3s;
+    }
+
+    .social a:hover {
+      color: #fff;
+ 
+}
+
+/* Desktop - mostra 4 lado a lado */
+@media (min-width: 1024px) {
+  .carrossel {
+    overflow-x: hidden; /* sem rolagem no desktop */
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .produto {
+    flex: 0 0 22%; /* 4 por linha */
+  }
+}
+
+/* Galeria */
+.galeria {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.galeria h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #ff1a1a;
+  text-shadow: 0px 0px 8px rgba(255, 0, 0, 0.7);
+}
+
+.carrossel-imagens {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.carrossel-imagens::-webkit-scrollbar {
+  display: none;
+}
+
+.imagem-item {
+  flex: 0 0 45%; /* 2 imagens por tela no mobile */
+  scroll-snap-align: start;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid #ff1a1a;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.imagem-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.imagem-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 0px 15px rgba(255, 0, 0, 0.6);
+}
+
+/* Desktop - mostra 4 por linha */
+@media (min-width: 1024px) {
+  .carrossel-imagens {
+    overflow-x: hidden;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .imagem-item {
+    flex: 0 0 22%;
+  }
+}
+
+.faixa-alerta {
+  background: #ff1a1a;
+  color: #fff;
+  overflow: hidden;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  padding: 10px 0;
+  font-weight: bold;
+  font-size: 16px;
+  position: relative;
+  z-index: 999;
+}
+
+.faixa-alerta span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: moverTexto 15s linear infinite;
+}
+
+@keyframes moverTexto {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+@media (max-width: 768px) {
+  .faixa-alerta {
+    font-size: 14px;
+    padding: 8px 0;
+  }
+}
+
+/* Botão WhatsApp fixo */
+.whatsapp-fixo {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.whatsapp-fixo img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  transition: transform 0.3s ease;
+}
+.whatsapp-fixo img:hover {
+  transform: scale(1.1);
+}
+
+/* Balão */
+.whatsapp-balao {
+  background: #25d366;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  animation: aparecer 1s ease forwards, piscar 2s infinite alternate;
+  max-width: 220px;
+}
+
+/* Animação de entrada */
+@keyframes aparecer {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Animação de destaque */
+@keyframes piscar {
+  from { opacity: 1; }
+  to { opacity: 0.7; }
+}
+
+/* Mobile ajustado */
+@media (max-width: 768px) {
+  .whatsapp-fixo {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .whatsapp-balao {
+    font-size: 12px;
+    padding: 8px 12px;
+    max-width: 180px;
+    margin-bottom: 5px;
+  }
+}
+
+
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .imagem-item {
+    flex: 0 0 70%; /* no celular deixa ainda mais claro que tem outro item */
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: url("images/fundo.png") no-repeat center center fixed;
+  background-size: cover; /* a imagem cobre toda a tela */
+  color: #fff; /* deixa textos visíveis */
+  position: relative;
+  z-index: 0;
+}
+
+/* Camada escura transparente por cima do fundo */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7); /* ajusta a opacidade (0.7 = bem escuro) */
+  z-index: -1; /* fica atrás do conteúdo */
+}
+
+:root{
+  --header-h: 72px; /* ajuste a altura do seu header aqui */
+}
+
+.site-header{
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  justify-content: center; /* ou space-between, etc */
+  padding: 10px 24px;      /* pode ajustar */
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(5px);
+  border-bottom: 1px solid #e50914;
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+.site-header .logo{
+  height: 50px; /* ajuste conforme sua logo */
+}
+
+.header-spacer{
+  height: var(--header-h);
+}
+
+/* Se no mobile o header ficar mais alto, pode ajustar a var no breakpoint */
+@media (max-width: 768px){
+  :root{ --header-h: 88px; } /* exemplo */
+}
+
+footer {
+  text-align: center;   /* Centraliza tudo dentro do footer */
+  padding: 20px;        /* Espaçamento interno */
+  background: #111;     /* Cor de fundo (opcional) */
+  color: #fff;          /* Cor do texto */
+}
+
+footer .logo {
+  max-width: 150px;     /* Ajusta o tamanho da logo */
+  display: block;
+  margin: 0 auto 10px;  /* Centraliza e dá espaço abaixo */
+}
+
+footer p {
+  font-size: 14px;
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #111;
+  color: #fff;
+}
+
+header {
+  background: #222;
+  color: #fff;
+  padding: 16px;
+  text-align: center;
+}
+
+main {
+  display: flex;
+  justify-content: center; /* centraliza na horizontal */
+  padding: 30px 15px;      /* espaçamento do cabeçalho */
+}
+
+.produto-wrapper {
+  width: 100%;
+  max-width: 520px; /* largura máxima */
+}
+
+.produto {
+  background: #111;
+  border: 2px solid #ff1a1a;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,.35);
+}
+
+/* --- vídeo com overlay --- */
+.video-preview {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #000;
+}
+
+.video-preview video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.play-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.play-overlay::before {
+  content: "";
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(0,0,0,.55);
+}
+
+.play-overlay::after {
+  content: "";
+  position: absolute;
+  border-left: 18px solid #fff;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  transform: translateX(6px);
+}
+
+/* --- texto e botão --- */
+.titulo {
+  font-size: 22px;
+  margin: 14px 0 8px;
+}
+
+.descricao {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #eaeaea;
+  margin-bottom: 12px;
+}
+
+.preco {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffcc00;
+  margin-bottom: 16px;
+}
+
+.btn-comprar {
+  display: inline-block;
+  background: #ff1a1a;
+  color: #fff;
+  text-decoration: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  transition: background .2s, transform .08s;
+  box-shadow: 0 8px 16px rgba(255, 26, 26, .25);
+}
+
+.btn-comprar:hover { background: #e10f0f; }
+.btn-comprar:active { transform: translateY(1px); }
+
+
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../index.html">
+    <img src="images/logo.png" alt="Logo BlackCode" class="logo">
+  </a>
+</header>
+
+<!-- Espaçador para compensar a altura do header fixo -->
+<div class="header-spacer" aria-hidden="true"></div>
+
+
+
+
+<!-- Botão WhatsApp -->
+<div class="whatsapp-fixo">
+  <a href="https://chat.whatsapp.com/CqNaHQNUMTY7wBFTCiJxsR?mode=ems_copy_c" target="_blank">
+    <img src="images/whatsapp.png" alt="WhatsApp">
+  </a>
+
+</div>
+
+
+
+
+<!-- Faixa Vermelha -->
+<div class="faixa-alerta">
+  <span>Mentoria totalmente Online e individual, te ensinando do zero a como começar no NICHO BLACK no primeiro dia.</span>
+</div>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aba do Produto</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+
+  <main>
+    <section class="produto-wrapper">
+      <div class="produto">
+        <div class="video-preview" data-src="videos/patriota.mp4" onclick="abrirVideo(this)">
+          <video muted playsinline preload="metadata">
+            <source src="videos/patriota.mp4" type="video/mp4" />
+            Seu navegador não suporta vídeo.
+          </video>
+          <div class="play-overlay"></div>
+        </div>
+
+        <h3 class="titulo">LOJA PATRIOTA</h3>
+
+        <p class="descricao">
+         Atenção: Após pagar o pix, você sera direcionado a pagina de download da Tela.
+Entre em contato com o Suporte no nosso grupo do whatsapp caso precise de ajuda para colocar a tela no ar.  
+        </p>
+
+        <div class="preco">R$ 97,00</div>
+
+        <a href="https://go.pepperpay.com.br/gouco" class="btn-comprar">Comprar Agora</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function abrirVideo(el) {
+      const src = el.dataset.src || el.querySelector('source')?.src || '';
+      const video = document.createElement('video');
+      video.src = src;
+      video.controls = true;
+      video.autoplay = true;
+      video.playsInline = true;
+      video.style.width = '100%';
+      video.style.height = 'auto';
+      el.innerHTML = '';
+      el.appendChild(video);
+    }
+  </script>
+</body>
+</html>
+
+
+<!-- Galeria de Imagens -->
+<section class="galeria">
+  <h2>Mentorias e Cursos</h2>
+  <div class="carrossel-imagens">
+
+    <a href="https://seulink1.com" target="_blank" class="imagem-item">
+      <img src="images/hot.png" alt="Imagem 1">
+    </a>
+
+    <a href="https://seulink2.com" target="_blank" class="imagem-item">
+      <img src="images/oferta.png" alt="Imagem 2">
+    </a>
+
+    <a href="https://seulink3.com" target="_blank" class="imagem-item">
+      <img src="images/galeria3.jpg" alt="Imagem 3">
+    </a>
+
+    <a href="https://seulink4.com" target="_blank" class="imagem-item">
+      <img src="images/galeria4.jpg" alt="Imagem 4">
+    </a>
+
+  </div>
+</section>
+
+
+  <!-- Avaliações -->
+  <section class="avaliacoes">
+    <h2>🗨️ Avaliações Reais</h2>
+    
+    <div class="comentario">
+      <img src="images/Gui.png" alt="Foto Gui">
+      <div class="texto">
+        <h4>Guilherme Raya</h4>
+        <p>⭐⭐⭐⭐⭐</p> 
+<p>Produto incrível, qualidade excelente!</p>
+      </div>
+    </div>
+
+    <div class="comentario">
+      <img src="images/junior.png" alt="Foto junior">
+      <div class="texto">
+        <h4>Junior Vieira</h4>
+        <p>⭐⭐⭐⭐⭐ 
+<p>Otima opção pra quem tá começando.</p>
+      </div>
+    </div>
+
+    <div class="comentario">
+      <img src="images/felipe.png" alt="Foto Felipe">
+      <div class="texto">
+        <h4>Felipe da Gringa</h4>
+        <p>⭐⭐⭐⭐⭐ 
+<p>Recomendo demais, são todos meus amigos.</p>
+      </div>
+    </div>
+
+    <div class="comentario">
+      <img src="images/paulo.png" alt="Foto Paulo">
+      <div class="texto">
+        <h4>Paulo Santiago</h4>
+        <p>⭐⭐⭐⭐⭐ </p>
+<p>Minha Primeira oferta rodei com o checkout da BlackCode.</p>
+      </div>
+    </div>
+
+  </section>
+
+<!-- Rodapé -->
+<footer>
+  <img src="images/logo.png" alt="Logo BlackCode" class="logo">
+  <p>Todos os direitos reservadosㅤㅤㅤㅤㅤㅤ</p>
+</footer>
+
+
+
+
+</body>
+</html>

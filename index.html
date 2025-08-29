@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BlackCode.exe — Boas-vindas</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
+
+  <!-- Favicon para dispositivos Apple -->
+  <link rel="apple-touch-icon" sizes="180x180" href="images/favicon.png">
+
+  <style>
+
+    :root{
+      --bg:#0b0b0b;
+      --panel:#0f0f0f;
+      --red:#ff1b2d;
+      --muted:#9a9a9a;
+      --glow: 0 0 10px rgba(255,27,45,0.12);
+      --mono: "Inconsolata", "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,#050505 0%, #0b0b0b 100%);
+      color:#e8e8e8;
+      font-family:var(--mono);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:30px;
+    }
+
+    .container{
+      width: 100%;
+      max-width: 980px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.7), var(--glow);
+      border: 1px solid rgba(255,27,45,0.06);
+      display: grid;
+      gap: 18px;
+      grid-template-columns: 1fr;
+      margin: 0 auto; /* centraliza horizontalmente */
+    }
+
+    /* Top bar with logo */
+    .topbar{
+      display:flex;
+      align-items:center;
+      gap:16px;
+    }
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .logo img{
+      width:72px;
+      height:72px;
+      object-fit:contain;
+      border-radius:8px;
+      filter: drop-shadow(0 6px 16px rgba(255,27,45,0.08));
+      background:linear-gradient(90deg,#0b0b0b,#120000);
+      border:1px solid rgba(255,27,45,0.08);
+      padding:6px;
+    }
+    .brand{
+      line-height:1;
+      color:var(--red);
+    }
+    .brand h1{
+      margin:0;
+      font-size:20px;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      animation:pulse 3s ease-in-out infinite;
+    }
+    .brand p{
+      margin:0;
+      margin-top:4px;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    /* Layout for video + quiz */
+    .main{
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:18px;
+    }
+
+    /* Ajuste responsivo para mobile */
+    @media (max-width: 900px){
+      .container {
+        padding: 20px;
+        margin: 0 12px; /* margem mínima nas laterais */
+      }
+      .main{grid-template-columns:1fr; gap:16px;}
+    }
+
+    /* Video card */
+    .video-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.015));
+      border-radius:10px;
+      padding:12px;
+      border:1px solid rgba(255,27,45,0.04);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      min-height:240px;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .video-card video, .video-card iframe{
+      width:100%;
+      max-height:360px;
+      border-radius:8px;
+      background:#000;
+      border:1px solid rgba(255,27,45,0.03);
+    }
+
+    /* Quiz card */
+    .quiz-card{
+      background:#060606;
+      border-radius:10px;
+      padding:16px;
+      border:1px solid rgba(255,27,45,0.06);
+      min-height:240px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      justify-content:center;
+    }
+    .question{
+      font-size:18px;
+      color:#fff;
+      margin-bottom:6px;
+      min-height:56px;
+      display:flex;
+      align-items:center;
+    }
+    .hint{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .options{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      background:transparent;
+      border:2px solid rgba(255,27,45,0.18);
+      padding:10px 16px;
+      border-radius:8px;
+      color:var(--red);
+      cursor:pointer;
+      font-weight:700;
+      letter-spacing:0.4px;
+      transition: all .18s ease;
+      min-width:120px;
+      text-align:center;
+      user-select:none;
+    }
+    .btn:hover{
+      transform:translateY(-3px) scale(1.02);
+      box-shadow: 0 6px 18px rgba(255,27,45,0.06);
+    }
+    .btn.ghost{
+      border-color: rgba(255,255,255,0.08);
+      color:#fff;
+    }
+    .small{
+      font-size:13px;
+      opacity:0.9;
+    }
+
+    .final-message{
+      background:linear-gradient(90deg, rgba(255,27,45,0.03), rgba(255,27,45,0.01));
+      border-radius:8px;
+      padding:12px;
+      color:#fff;
+      line-height:1.4;
+      font-size:14px;
+      border:1px solid rgba(255,27,45,0.04);
+    }
+
+    .continue-wrap{
+      margin-top:10px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+    .continue-btn{
+      display:inline-block;
+      padding:12px 20px;
+      background:var(--red);
+      color:#0b0b0b;
+      border-radius:8px;
+      font-weight:800;
+      border:none;
+      cursor:pointer;
+      opacity:0;
+      transform:translateY(6px);
+      transition: all .35s cubic-bezier(.2,.9,.3,1);
+      box-shadow: 0 8px 30px rgba(255,27,45,0.14);
+    }
+    .continue-btn.visible{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    .foot{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-top:6px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    @keyframes pulse {
+      0%{box-shadow: 0 0 0px rgba(255,27,45,0.08)}
+      50%{box-shadow: 0 0 18px rgba(255,27,45,0.12)}
+      100%{box-shadow: 0 0 0px rgba(255,27,45,0.08)}
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container" role="main" aria-labelledby="welcome">
+    <div class="topbar">
+      <div class="logo" aria-hidden="false">
+        <img src="images/logo.png" alt="BlackCode.exe Logo" onerror="this.style.display='none'">
+        <div class="brand">
+          <h1 id="welcome">BlackCode.exe</h1>
+          <p>Hacker style · Comunidade & Mentorias</p>
+        </div>
+      </div>
+      <div style="margin-left:auto" class="term" aria-hidden="true">Conexão segura • TLS • 256-bit</div>
+    </div>
+
+    <div class="main" aria-live="polite">
+      <div class="video-card" aria-label="Vídeo de apresentação">
+        <video id="introVideo" controls playsinline preload="metadata">
+          <source src="videos/saudacao.mp4" type="video/mp4">
+          Seu navegador não suporta vídeo. <a href="videos/intro.mp4">Baixar vídeo</a>
+        </video>
+        <div class="hint">Assista ao vídeo introdutório. </div>
+<div class="hint"> Dica: mantenha o áudio ativado.</div>
+      </div>
+
+      <div class="quiz-card" id="quiz" aria-label="Questionário">
+        <div id="stepArea">
+          <div class="question" id="questionText">Carregando...</div>
+          <div class="options" id="optionsArea" role="list"></div>
+        </div>
+        <div id="finalArea" style="display:none">
+          <div class="final-message" id="finalMessage"></div>
+          <div class="continue-wrap">
+            <button id="continueBtn" class="continue-btn" aria-hidden="true">Continuar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <div class="term">STATUS: <strong style="color:var(--red);margin-left:8px">ONLINE</strong></div>
+      <div style="text-align:right;color:var(--muted)">BlackCode.exe © <span id="year"></span></div>
+    </div>
+  </div>
+
+  <!-- Scripts do quiz + animação hacker -->
+  <script>
+  (function(){
+    const steps = {
+      1:{id:1,text:'Você já trabalha com Marketing Digital?',options:[{label:'Sim',value:'yes'},{label:'Não',value:'no'}]},
+      hotCheck:{id:2,text:'Já trabalhou com ou trabalha com nicho BLACK?',options:[{label:'Sim',value:'yes'},{label:'Não',value:'no'}]},
+      interestCheck:{id:3,text:'Tem interesse em começar agora?',options:[{label:'Sim',value:'yes'},{label:'Não',value:'no'}]}
+    };
+    const qText=document.getElementById('questionText');
+    const optionsArea=document.getElementById('optionsArea');
+    const finalArea=document.getElementById('finalArea');
+    const finalMessage=document.getElementById('finalMessage');
+    const continueBtn=document.getElementById('continueBtn');
+    const yearEl=document.getElementById('year');
+    yearEl.textContent=new Date().getFullYear();
+    let state={answers:{}};
+
+    function renderStep(step){
+      qText.textContent=step.text;
+      optionsArea.innerHTML='';
+      step.options.forEach(opt=>{
+        const btn=document.createElement('button');
+        btn.className='btn';
+        btn.setAttribute('role','button');
+        btn.setAttribute('aria-pressed','false');
+        btn.textContent=opt.label;
+        btn.addEventListener('click',()=>handleAnswer(step,opt));
+        optionsArea.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(step,opt){
+      state.answers['q'+step.id]=opt.value;
+      Array.from(optionsArea.children).forEach(b=>{b.classList.add('ghost');b.setAttribute('disabled','true');});
+      event?.target?.classList?.add('selected');
+      setTimeout(()=>{
+        if(step.id===1){opt.value==='yes'?renderStep(steps.hotCheck):renderStep(steps.interestCheck);}
+        else showFinal();
+      },250);
+    }
+
+    function showFinal(){
+      document.getElementById('stepArea').style.display='none';
+      finalArea.style.display='block';
+      const q1=state.answers['q1']==='yes'?'Que bom que já atua no Marketing Digital.':'Que legal — vamos te ajudar a começar.';
+      const q2=state.answers['q2']?state.answers['q2']==='yes'?'Ótimo — experiência em nicho Black é um diferencial.':'Sem problemas — temos estratégias para todos.':'';
+      finalMessage.innerHTML=`<strong>Pronto, seja bem-vindo à nossa comunidade!</strong>
+        <p style="margin-top:8px;">${q1} ${q2}</p>
+        <p style="margin-top:8px;">Aqui na <strong>BlackCode.exe</strong> você consegue adquirir mentorias e ferramentas para subir sua oferta Black.
+        Entre em nosso grupo no WhatsApp e fique por dentro do nosso network.</p>`;
+      setTimeout(()=>{continueBtn.classList.add('visible');continueBtn.setAttribute('aria-hidden','false');},2200);
+    }
+
+    renderStep(steps[1]);
+
+    document.addEventListener('keyup',(e)=>{if(e.key==='Enter'){const a=document.activeElement;if(a&&a.classList.contains('btn'))a.click();}});
+
+    const vid=document.getElementById('introVideo');
+    vid.addEventListener('error',()=>{vid.outerHTML='<div style="padding:28px;text-align:center;color:var(--muted)">Vídeo indisponível. Substitua <code>videos/intro.mp4</code> pelo seu arquivo.</div>'});
+  })();
+
+  // Animação Hacker
+  (function(){
+    function createOverlay(){const o=document.createElement('div');Object.assign(o.style,{position:'fixed',top:'0',left:'0',width:'100%',height:'100%',background:'rgba(0,0,0,0.95)',color:'#ff1b2d',fontFamily:'monospace',fontSize:'14px',lineHeight:'1.4',padding:'20px',zIndex:'999999',display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'flex-start',overflow:'hidden'});document.body.appendChild(o);return o;}
+    function glitchText(t){const c='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()';return t.split('').map(e=>Math.random()<0.1?c[Math.floor(Math.random()*c.length)]:e).join('');}
+    function typeLine(text,container,delay){setTimeout(()=>{const div=document.createElement('div');container.appendChild(div);let idx=0;const interval=setInterval(()=>{let t=text.slice(0,idx+1);if(Math.random()<0.05)t=glitchText(t);div.textContent=t;idx++;if(idx>=text.length)clearInterval(interval);},30);},delay);}
+    function startHackerAnimation(){const overlay=createOverlay();const lines=["[ACESSO] Conectando ao servidor BlackCode.exe...","[STATUS] Autenticando chave RSA-2048...","[OK] Conexão segura estabelecida.","[LOAD] Carregando protocolos de acesso...","[GRANTED] Acesso autorizado.",">> Preparando ambiente Black..."];lines.forEach((l,i)=>typeLine(l,overlay,i*400));setTimeout(()=>{const barC=document.createElement('div');Object.assign(barC.style,{width:'100%',height:'6px',background:'rgba(255,27,45,0.2)',marginTop:'20px'});overlay.appendChild(barC);const bar=document.createElement('div');Object.assign(bar.style,{width:'0%',height:'100%',background:'#ff1b2d'});barC.appendChild(bar);let w=0;const interval=setInterval(()=>{w+=2;bar.style.width=w+'%';if(w>=100)clearInterval(interval);},20);},lines.length*400);setTimeout(()=>window.location.href='inicio.html',5000);}
+    function waitForButton(){const b=document.getElementById('continueBtn');if(b){b.addEventListener('click',function(e){e.preventDefault();startHackerAnimation();});}else setTimeout(waitForButton,100);}
+    waitForButton();
+  })();
+  </script>
+</body>
+</html>

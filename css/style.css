@@ -1,0 +1,6 @@
+body { font-family: Arial, sans-serif; background: #f9f9f9; text-align: center; padding:50px; }
+.container { background: #fff; padding: 30px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); display:inline-block; width:300px; }
+button { background: #1db954; color:#fff; border:none; padding:10px 20px; font-size:16px; border-radius:5px; cursor:pointer; }
+button:hover { background:#17a44a; }
+a { color:#1db954; text-decoration:none; }
+input { width:90%; padding:8px; margin:5px 0; }

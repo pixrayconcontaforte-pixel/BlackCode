@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlackCode</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
+
+  <!-- Favicon para dispositivos Apple -->
+  <link rel="apple-touch-icon" sizes="180x180" href="images/favicon.png">
+  <style>
+
+  .animate {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 600ms cubic-bezier(.2,.9,.3,1), transform 600ms cubic-bezier(.2,.9,.3,1);
+    will-change: opacity, transform;
+  }
+  .animate.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Variações opcionais */
+  .fade-left { transform: translateX(-30px); }
+  .fade-right { transform: translateX(30px); }
+  .fade-left.in-view, .fade-right.in-view { transform: translateX(0); }
+
+  .zoom-up { transform: translateY(18px) scale(.98); }
+  .zoom-up.in-view { transform: translateY(0) scale(1); }
+
+  /* RESET BÁSICO */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; line-height: 1.4; color: #111; background: #f7f7f8; }
+
+    /* LAYOUT EXEMPLO */
+    .container {
+      width: 95%;
+      max-width: 1100px;
+      margin: 40px auto;
+    }
+
+    .section {
+      background: white;
+      border-radius: 14px;
+      padding: 28px;
+      margin-bottom: 28px;
+      box-shadow: 0 6px 22px rgba(16,24,40,0.06);
+      overflow: hidden;
+    }
+
+    .row {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      flex: 1 1 300px;
+      min-width: 260px;
+      background: linear-gradient(180deg,#fff,#fbfbfd);
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 4px 14px rgba(2,6,23,0.04);
+    }
+
+    img.sample {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+      display:block;
+      margin-bottom: 12px;
+    }
+
+    h2 { font-size: 20px; margin-bottom: 8px; }
+    p { font-size: 14px; color: #444; }
+
+    /* ESTADO INICIAL: escondido e pronto para animar */
+    .animate {
+      opacity: 0;
+      transform: translateY(24px) scale(.995);
+      transition: opacity 600ms cubic-bezier(.2,.9,.3,1), transform 600ms cubic-bezier(.2,.9,.3,1);
+      will-change: opacity, transform;
+    }
+
+    /* QUANDO FICA VISTO: animação final */
+    .animate.in-view {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* variações de direção/estilo */
+    .fade-left { transform: translateX(-30px) scale(.995); }
+    .fade-right { transform: translateX(30px) scale(.995); }
+    .fade-left.in-view, .fade-right.in-view { transform: translateX(0) scale(1); }
+
+    .zoom-up { transform: translateY(18px) scale(.98); }
+    .zoom-up.in-view { transform: translateY(0) scale(1); }
+
+    /* STAGGER: delays individuais via data-delay */ 
+    .animate[data-delay='0'] { transition-delay: 0ms; }
+    .animate[data-delay='50'] { transition-delay: 50ms; }
+    .animate[data-delay='100'] { transition-delay: 100ms; }
+    .animate[data-delay='150'] { transition-delay: 150ms; }
+    .animate[data-delay='200'] { transition-delay: 200ms; }
+    .animate[data-delay='250'] { transition-delay: 250ms; }
+    .animate[data-delay='300'] { transition-delay: 300ms; }
+
+    /* RESPONSIVIDADE */
+    @media (max-width: 720px) {
+      .row { gap: 12px; }
+      .container { margin: 18px auto; }
+      img.sample { height: 150px; }
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: #fff;
+    }
+
+    /* Header */
+    header {
+      background: #000;
+      padding: 15px;
+      text-align: center;
+    }
+    header img {
+      max-width: 150px;
+      height: auto;
+    }
+
+    /* Banner Vermelho */
+    .banner-top {
+      background: #e50914;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+      font-weight: bold;
+    }
+
+    /* Seção Corpo */
+    .corpo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    .corpo img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+
+    .texto {
+      max-width: 700px;
+      text-align: left;
+      margin: 20px 0;
+    }
+
+    .texto h2 {
+      color: #e50914;
+      margin-bottom: 15px;
+    }
+
+    .texto p {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .texto span {
+      color: #ffd700; /* Destaque em dourado */
+      font-weight: bold;
+    }
+
+    /* Botão Comprar */
+    .btn-comprar {
+      display: inline-block;
+      margin: 30px auto 0 auto;
+      padding: 15px 40px;
+      background: #e50914;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: 0.3s ease;
+    }
+
+    .btn-comprar:hover {
+      background: #ff1f1f;
+      transform: scale(1.05);
+    }
+
+    @media (min-width: 768px) {
+      .corpo {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+      }
+
+      .corpo img {
+        width: 30%;
+        margin: 0 15px;
+      }
+
+      .texto {
+        flex: 1;
+        margin: 0 20px;
+      }
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #000000;
+      color: #ffffff;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.95);
+      border-bottom: 2px solid #990000;
+    }
+
+    header img {
+      height: 60px;
+      cursor: pointer;
+    }
+
+   
+    /* Avaliações */
+    .avaliacoes {
+      padding: 40px 60px;
+    }
+
+    .avaliacoes h2 {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #ff1a1a;
+      text-shadow: 0px 0px 10px rgba(255, 0, 0, 0.7);
+    }
+
+    .comentario {
+      background: rgba(20, 20, 20, 0.95);
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      border: 1px solid #ff1a1a;
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+    }
+
+    .comentario img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid #ff1a1a;
+      object-fit: cover;
+    }
+
+    .comentario .texto {
+      flex: 1;
+    }
+
+    .comentario .texto h4 {
+      margin-bottom: 5px;
+      color: #ff1a1a;
+    }
+
+    .comentario .texto p {
+      color: #ffffff;
+      line-height: 1.4;
+    }
+
+    /* Rodapé */
+    footer {
+      background: rgba(0, 0, 0, 0.95);
+      padding: 20px 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 2px solid #990000;
+    }
+
+    footer img {
+      height: 40px;
+    }
+
+    .social {
+      display: flex;
+      gap: 15px;
+    }
+
+    .social a {
+      text-decoration: none;
+      color: #ff1a1a;
+      font-size: 22px;
+      transition: 0.3s;
+    }
+
+    .social a:hover {
+      color: #fff;
+ 
+}
+
+/* Desktop - mostra 4 lado a lado */
+@media (min-width: 1024px) {
+  .carrossel {
+    overflow-x: hidden; /* sem rolagem no desktop */
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .produto {
+    flex: 0 0 22%; /* 4 por linha */
+  }
+}
+
+/* Galeria */
+.galeria {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.galeria h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #ff1a1a;
+  text-shadow: 0px 0px 8px rgba(255, 0, 0, 0.7);
+}
+
+.carrossel-imagens {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.carrossel-imagens::-webkit-scrollbar {
+  display: none;
+}
+
+.imagem-item {
+  flex: 0 0 45%; /* 2 imagens por tela no mobile */
+  scroll-snap-align: start;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid #ff1a1a;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.imagem-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.imagem-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 0px 15px rgba(255, 0, 0, 0.6);
+}
+
+/* Desktop - mostra 4 por linha */
+@media (min-width: 1024px) {
+  .carrossel-imagens {
+    overflow-x: hidden;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .imagem-item {
+    flex: 0 0 22%;
+  }
+}
+
+.faixa-alerta {
+  background: #ff1a1a;
+  color: #fff;
+  overflow: hidden;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  padding: 10px 0;
+  font-weight: bold;
+  font-size: 16px;
+  position: relative;
+  z-index: 999;
+}
+
+.faixa-alerta span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: moverTexto 15s linear infinite;
+}
+
+@keyframes moverTexto {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+@media (max-width: 768px) {
+  .faixa-alerta {
+    font-size: 14px;
+    padding: 8px 0;
+  }
+}
+
+/* Botão WhatsApp fixo */
+.whatsapp-fixo {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.whatsapp-fixo img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  transition: transform 0.3s ease;
+}
+.whatsapp-fixo img:hover {
+  transform: scale(1.1);
+}
+
+/* Balão */
+.whatsapp-balao {
+  background: #25d366;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  animation: aparecer 1s ease forwards, piscar 2s infinite alternate;
+  max-width: 220px;
+}
+
+/* Animação de entrada */
+@keyframes aparecer {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Animação de destaque */
+@keyframes piscar {
+  from { opacity: 1; }
+  to { opacity: 0.7; }
+}
+
+/* Mobile ajustado */
+@media (max-width: 768px) {
+  .whatsapp-fixo {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .whatsapp-balao {
+    font-size: 12px;
+    padding: 8px 12px;
+    max-width: 180px;
+    margin-bottom: 5px;
+  }
+}
+
+
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .imagem-item {
+    flex: 0 0 70%; /* no celular deixa ainda mais claro que tem outro item */
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: url("images/fundo.png") no-repeat center center fixed;
+  background-size: cover; /* a imagem cobre toda a tela */
+  color: #fff; /* deixa textos visíveis */
+  position: relative;
+  z-index: 0;
+}
+
+/* Camada escura transparente por cima do fundo */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7); /* ajusta a opacidade (0.7 = bem escuro) */
+  z-index: -1; /* fica atrás do conteúdo */
+}
+
+:root{
+  --header-h: 72px; /* ajuste a altura do seu header aqui */
+}
+
+.site-header{
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  justify-content: center; /* ou space-between, etc */
+  padding: 10px 24px;      /* pode ajustar */
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(5px);
+  border-bottom: 1px solid #e50914;
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+.site-header .logo{
+  height: 50px; /* ajuste conforme sua logo */
+}
+
+.header-spacer{
+  height: var(--header-h);
+}
+
+/* Se no mobile o header ficar mais alto, pode ajustar a var no breakpoint */
+@media (max-width: 768px){
+  :root{ --header-h: 88px; } /* exemplo */
+}
+
+footer {
+  text-align: center;   /* Centraliza tudo dentro do footer */
+  padding: 20px;        /* Espaçamento interno */
+  background: #111;     /* Cor de fundo (opcional) */
+  color: #fff;          /* Cor do texto */
+}
+
+footer .logo {
+  max-width: 150px;     /* Ajusta o tamanho da logo */
+  display: block;
+  margin: 0 auto 10px;  /* Centraliza e dá espaço abaixo */
+}
+
+footer p {
+  font-size: 14px;
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #111;
+  color: #fff;
+}
+
+header {
+  background: #222;
+  color: #fff;
+  padding: 16px;
+  text-align: center;
+}
+
+main {
+  display: flex;
+  justify-content: center; /* centraliza na horizontal */
+  padding: 30px 15px;      /* espaçamento do cabeçalho */
+}
+
+.produto-wrapper {
+  width: 100%;
+  max-width: 520px; /* largura máxima */
+}
+
+.produto {
+  background: #111;
+  border: 2px solid #ff1a1a;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,.35);
+}
+
+/* --- vídeo com overlay --- */
+.video-preview {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #000;
+}
+
+.video-preview video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.play-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.play-overlay::before {
+  content: "";
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(0,0,0,.55);
+}
+
+.play-overlay::after {
+  content: "";
+  position: absolute;
+  border-left: 18px solid #fff;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  transform: translateX(6px);
+}
+
+/* --- texto e botão --- */
+.titulo {
+  font-size: 22px;
+  margin: 14px 0 8px;
+}
+
+.descricao {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #eaeaea;
+  margin-bottom: 12px;
+}
+
+.preco {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffcc00;
+  margin-bottom: 16px;
+}
+
+.btn-comprar {
+  display: inline-block;
+  background: #ff1a1a;
+  color: #fff;
+  text-decoration: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  transition: background .2s, transform .08s;
+  box-shadow: 0 8px 16px rgba(255, 26, 26, .25);
+}
+
+.btn-comprar:hover { background: #e10f0f; }
+.btn-comprar:active { transform: translateY(1px); }
+
+
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../index.html">
+    <img src="images/logo.png" alt="Logo BlackCode" class="logo">
+  </a>
+</header>
+
+<!-- Espaçador para compensar a altura do header fixo -->
+<div class="header-spacer" aria-hidden="true"></div>
+
+
+
+
+<!-- Botão WhatsApp -->
+<div class="whatsapp-fixo">
+  <a href="https://chat.whatsapp.com/CqNaHQNUMTY7wBFTCiJxsR?mode=ems_copy_c" target="_blank">
+    <img src="images/whatsapp.png" alt="WhatsApp">
+  </a>
+
+</div>
+
+
+
+
+<!-- Faixa Vermelha -->
+<div class="faixa-alerta">
+  <span>Mentoria totalmente Online e individual, te ensinando do zero a como começar no NICHO BLACK no primeiro dia.</span>
+</div>
+
+
+  <!-- Corpo -->
+  <section class="corpo">
+    <!-- Primeira Imagem -->
+    <img src="../images/frase1.png" alt="Imagem exemplo">
+
+    <!-- Texto -->
+    <div class="texto animate fade-left">
+      <h2>🚀 Mentoria do ZERO</h2>
+      <p>
+        Aprenda, passo a passo, a criar sua própria modelo com Inteligência Artificial e descubra como transformar isso em uma verdadeira máquina de vendas online.
+      </p>
+      <p><span>✨ Como criar imagens realistas e personalizadas com IA.</span></p>
+      <p><span>✨ Estratégias para posicionar sua modelo no mercado digital.</span></p>
+      <p><span>✨ Técnicas para transformar conteúdos em produtos quentes (Hot) que realmente vendem.</span></p>
+      <p><span>✨ Métodos simples e práticos para começar do zero, mesmo sem experiência.</span></p>
+      <p>💡 Do básico à prática, você terá acesso a segredos e atalhos para lucrar no digital usando a força da inteligência artificial.</p>
+      <p>🔥 Se você quer entrar no mundo das vendas online de forma inovadora e criativa, essa mentoria é o primeiro passo para mudar o jogo!</p>
+    </div>
+
+    <!-- Segunda Imagem -->
+    <img src="../images/avataria.png" alt="Imagem exemplo">
+  </section>
+
+  <!-- Botão de Comprar -->
+  <div style="text-align:center;">
+    <a href="https://go.pepperpay.com.br/omqxs" class="btn-comprar animate fade-left">🔥 Comprar Agora</a>
+  </div>
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aba do Produto</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+
+
+</body>
+</html>
+
+
+<!-- Galeria de Imagens -->
+<section class="galeria animate fade-left">
+  <h2>Mentorias e Cursos</h2>
+  <div class="carrossel-imagens">
+
+    <a href="https://seulink1.com" target="_blank" class="imagem-item">
+      <img src="images/hot.png" alt="Imagem 1">
+    </a>
+
+    <a href="https://seulink2.com" target="_blank" class="imagem-item">
+      <img src="images/oferta.png" alt="Imagem 2">
+    </a>
+
+    <a href="https://seulink3.com" target="_blank" class="imagem-item">
+      <img src="images/galeria3.jpg" alt="Imagem 3">
+    </a>
+
+    <a href="https://seulink4.com" target="_blank" class="imagem-item">
+      <img src="images/galeria4.jpg" alt="Imagem 4">
+    </a>
+
+  </div>
+</section>
+
+
+  <!-- Avaliações -->
+  <section class="avaliacoes">
+    <h2>🗨️ Avaliações Reais</h2>
+    
+    <div class="comentario animate fade-left">
+      <img src="images/Gui.png" alt="Foto Gui">
+      <div class="texto">
+        <h4>Guilherme Raya</h4>
+        <p>⭐⭐⭐⭐⭐</p> 
+<p>Produto incrível, qualidade excelente!</p>
+      </div>
+    </div>
+
+    <div class="comentario animate fade-left">
+      <img src="images/junior.png" alt="Foto junior">
+      <div class="texto">
+        <h4>Junior Vieira</h4>
+        <p>⭐⭐⭐⭐⭐ 
+<p>Otima opção pra quem tá começando.</p>
+      </div>
+    </div>
+
+    <div class="comentario animate fade-left">
+      <img src="images/felipe.png" alt="Foto Felipe">
+      <div class="texto">
+        <h4>Felipe da Gringa</h4>
+        <p>⭐⭐⭐⭐⭐ 
+<p>Recomendo demais, são todos meus amigos.</p>
+      </div>
+    </div>
+
+    <div class="comentario animate fade-left">
+      <img src="images/paulo.png" alt="Foto Paulo">
+      <div class="texto">
+        <h4>Paulo Santiago</h4>
+        <p>⭐⭐⭐⭐⭐ </p>
+<p>Minha Primeira oferta rodei com o checkout da BlackCode.</p>
+      </div>
+    </div>
+
+  </section>
+
+<!-- Rodapé -->
+<footer>
+  <img src="images/logo.png" alt="Logo BlackCode" class="logo">
+  <p>Todos os direitos reservadosㅤㅤㅤㅤㅤㅤ</p>
+</footer>
+
+<script>
+  (function() {
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          obs.unobserve(entry.target); // anima só uma vez
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.animate').forEach(el => {
+      observer.observe(el);
+    });
+  })();
+</script>
+
+
+</body>
+</html>
